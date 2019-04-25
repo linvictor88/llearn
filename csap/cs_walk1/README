@@ -1,0 +1,42 @@
+## Preprocess
+gcc -E hello.c -o hello.i
+
+## Compilation
+gcc -S hello.i -o hello.s
+
+## Assemble
+gcc -c hello.s -o hello.o
+
+## Link
+gcc hello.o -o hello
+
+## Define .h file without Macro exclusion
+root@dev:~/llearn/csap/cs_walk1# cat hello.i | wc -l
+867
+root@dev:~/llearn/csap/cs_walk1# cat hello.s | wc -l
+45
+root@dev:~/llearn/csap/cs_walk1# ls -lh hello.o
+-rw-r--r-- 1 root root 1.7K Apr 24 18:15 hello.o
+root@dev:~/llearn/csap/cs_walk1# ls -lh hello
+-rwxr-xr-x 1 root root 8.5K Apr 24 18:18 hello
+
+如果再hello.h 文件中不加#ifndef 宏进行约束， 会出现重复声明， 但并不影响
+编译处理正常运行。
+
+## Define .h file with Macro #ifndef
+可以看到， 加入宏后的唯一区别便是预处理后的文本程序多了一行， 这多处的一行
+就是hello_say的多重声明。
+root@dev:~/llearn/csap/cs_walk1# gcc -E hello.c  -o hello.i
+root@dev:~/llearn/csap/cs_walk1# gcc -S hello.i -o hello.s
+root@dev:~/llearn/csap/cs_walk1# gcc -c hello.s -o hello.o
+root@dev:~/llearn/csap/cs_walk1# gcc hello.o -o hello
+
+root@dev:~/llearn/csap/cs_walk1# cat hello.i | wc -l
+866
+root@dev:~/llearn/csap/cs_walk1# cat hello.s | wc -l
+45
+root@dev:~/llearn/csap/cs_walk1# ls -lh hello.o
+-rw-r--r-- 1 root root 1.7K Apr 24 18:26 hello.o
+root@dev:~/llearn/csap/cs_walk1# ls -lh hello
+-rwxr-xr-x 1 root root 8.5K Apr 24 18:26 hello
+
